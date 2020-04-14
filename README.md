@@ -1,12 +1,12 @@
 # YOLO-Hand-Detection
-Scene hand detection for gesture detection.
+Scene hand detection for real world images.
 
-![Hand Detection Example]()
+![Hand Detection Example](readme/export.jpg)
 
 ### Idea
 To detect hand gestures, we first have to detect the hand position in space. This pre-trained network is able to extract hands out of a `2D RGB` image, by using the YOLOv3 neural network.
 
-There are already existing models available, mainly for MobileNetSSD networks. The goal of this model is to support a wider range of images and a more stable detector.
+There are already existing models available, mainly for MobileNetSSD networks. The goal of this model is to support a wider range of images and a more stable detector (hopefully 🙈).
 
 ### Dataset
 The first version of this network has been trained on the [CMU Hand DB](http://domedb.perception.cs.cmu.edu/handdb.html) dataset, which is free to access and download. Because the results were ok, but not satisfying, I used it to pre annotate more images and manually then corrected the pre-annotations.
@@ -20,11 +20,11 @@ The training took about 10 hours on a single NVIDIA 1080TI and was performed wit
 
 #### YOLOv3
 
-![Training Graph](images/chart_yolov3.png)
+![Training Graph](readme/chart_yolov3.png)
 
 #### Yolov3-Tiny
 
-![Training Graph](images/chart_yolov3-tiny_obj.png)
+![Training Graph](readme/chart_yolov3-tiny_obj.png)
 
 ### Testing
 I could not test the model on the same dataset as for example the Egohands dataset, because I mixed the training and testing samples together and created my own test-dataset out of it.
@@ -66,3 +66,7 @@ If you are interested in the CMU Hand DB results, please check the [release](htt
 
 ### About
 Trained by *[cansik](https://github.com/cansik)*, datasets are described in the readme and fall under the terms and conditions of their owners.
+
+All the demo images have been downloaded from [unsplash.com](https://unsplash.com/):
+
+Tim Marshall, Zachary Nelson, John Torcasio, Andy Falconer, Sherise, Alexis Brown
