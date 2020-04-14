@@ -1,0 +1,7 @@
+.idea
+venv
+models/cross-hands-tiny.cfg
+models/cross-hands-tiny.weights
+models/cross-hands.cfg
+models/cross-hands.weights
+*.pyc
