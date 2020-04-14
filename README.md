@@ -22,9 +22,17 @@ The training took about 10 hours on a single NVIDIA 1080TI and was performed wit
 
 ![Training Graph](readme/chart_yolov3.png)
 
+```
+Precision: 0.89 Recall: 0.85 F1-Score: 0.87 IoU: 69.8
+```
+
 #### Yolov3-Tiny
 
 ![Training Graph](readme/chart_yolov3-tiny_obj.png)
+
+```
+Precision: 0.76 Recall: 0.69 F1-Score: 0.72 IoU: 53.67
+```
 
 ### Testing
 I could not test the model on the same dataset as for example the Egohands dataset, because I mixed the training and testing samples together and created my own test-dataset out of it.
