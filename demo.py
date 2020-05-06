@@ -8,15 +8,18 @@ from yolo import YOLO
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--images', default="images", help='Path to images or image file')
-ap.add_argument('-n', '--network', default="normal", help='Use tiny algorithm')
+ap.add_argument('-n', '--network', default="normal", help='Network Type: normal / tiny / prn')
 ap.add_argument('-d', '--device', default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=640, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.25, help='Confidence for yolo')
 args = ap.parse_args()
 
-if args.network is "normal":
+if args.network == "normal":
     print("loading yolo...")
     yolo = YOLO("models/cross-hands.cfg", "models/cross-hands.weights", ["hand"])
+elif args.network == "prn":
+    print("loading yolo-tiny-prn...")
+    yolo = YOLO("models/cross-hands-tiny-prn.cfg", "models/cross-hands-tiny-prn.weights", ["hand"])
 else:
     print("loading yolo-tiny...")
     yolo = YOLO("models/cross-hands-tiny.cfg", "models/cross-hands-tiny.weights", ["hand"])

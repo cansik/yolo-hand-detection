@@ -34,6 +34,15 @@ Precision: 0.89 Recall: 0.85 F1-Score: 0.87 IoU: 69.8
 Precision: 0.76 Recall: 0.69 F1-Score: 0.72 IoU: 53.67
 ```
 
+#### Yolov3-Tiny-PRN
+The tiny version of YOLO has been improved by the [partial residual networks paper](https://github.com/WongKinYiu/PartialResidualNetworks). Because of that I trained YOLO-Tiny-PRN and share the results here too. It is interesting to see that the Yolov3-Tiny-PRN performance **comes close** to the original Yolov3!
+
+![Training Graph](readme/chart_yolov3-tiny-prn.png)
+
+```
+Precision: 0.89 Recall: 0.79 F1-Score: 0.83 IoU: 68.47
+```
+
 ### Testing
 I could not test the model on the same dataset as for example the Egohands dataset, because I mixed the training and testing samples together and created my own test-dataset out of it.
 
@@ -61,6 +70,13 @@ Or this one to run a webcam detrector with YOLOv3 tiny:
 python demo_webcam.py -n tiny
 ```
 
+For Yolov3-Tiny-PRN use the following command:
+
+```bash
+# with python 3
+python demo_webcam.py -n prn
+```
+
 ### Download
 
 - YOLOv3 Cross-Dataset
@@ -69,6 +85,9 @@ python demo_webcam.py -n tiny
 - YOLOv3-tiny Cross-Hands
 	- [Configuration](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny.cfg)
 	- [Weights](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny.weights)
+- YOLOv3-tiny-prn Cross-Hands
+	- [Configuration](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny-prn.cfg)
+	- [Weights](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny-prn.weights)
 
 If you are interested in the CMU Hand DB results, please check the [release](https://github.com/cansik/yolo-hand-detection/releases/tag/pretrained) section.
 
