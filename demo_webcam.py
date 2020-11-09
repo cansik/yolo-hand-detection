@@ -4,7 +4,7 @@ import cv2
 from yolo import YOLO
 
 ap = argparse.ArgumentParser()
-ap.add_argument('-n', '--network', default="normal", help='Network Type: normal / tiny / prn')
+ap.add_argument('-n', '--network', default="normal", help='Network Type: normal / tiny / prn / v4-tiny')
 ap.add_argument('-d', '--device', default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=416, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.2, help='Confidence for yolo')
@@ -16,6 +16,9 @@ if args.network == "normal":
 elif args.network == "prn":
     print("loading yolo-tiny-prn...")
     yolo = YOLO("models/cross-hands-tiny-prn.cfg", "models/cross-hands-tiny-prn.weights", ["hand"])
+elif args.network == "v4-tiny":
+    print("loading yolov4-tiny-prn...")
+    yolo = YOLO("models/cross-hands-yolov4-tiny.cfg", "models/cross-hands-yolov4-tiny.weights", ["hand"])
 else:
     print("loading yolo-tiny...")
     yolo = YOLO("models/cross-hands-tiny.cfg", "models/cross-hands-tiny.weights", ["hand"])

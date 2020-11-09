@@ -26,7 +26,7 @@ The training took about 10 hours on a single NVIDIA 1080TI and was performed wit
 Precision: 0.89 Recall: 0.85 F1-Score: 0.87 IoU: 69.8
 ```
 
-#### Yolov3-Tiny
+#### YOLOv3-Tiny
 
 ![Training Graph](readme/chart_yolov3-tiny_obj.png)
 
@@ -34,13 +34,22 @@ Precision: 0.89 Recall: 0.85 F1-Score: 0.87 IoU: 69.8
 Precision: 0.76 Recall: 0.69 F1-Score: 0.72 IoU: 53.67
 ```
 
-#### Yolov3-Tiny-PRN
+#### YOLOv3-Tiny-PRN
 The tiny version of YOLO has been improved by the [partial residual networks paper](https://github.com/WongKinYiu/PartialResidualNetworks). Because of that I trained YOLO-Tiny-PRN and share the results here too. It is interesting to see that the Yolov3-Tiny-PRN performance **comes close** to the original Yolov3!
 
 ![Training Graph](readme/chart_yolov3-tiny-prn.png)
 
 ```
 Precision: 0.89 Recall: 0.79 F1-Score: 0.83 IoU: 68.47
+```
+
+#### YOLOv4-Tiny
+With the recent version of YOLOv4 it was interesting to see how good it performs against it's predecessor. Same precision, but better recall and IoU.
+
+![Training Graph](readme/chart_yolov4-tiny.png)
+
+```
+Precision: 0.89 Recall: 0.89 F1-Score: 0.89 IoU: 91.48
 ```
 
 ### Testing
@@ -70,11 +79,18 @@ Or this one to run a webcam detrector with YOLOv3 tiny:
 python demo_webcam.py -n tiny
 ```
 
-For Yolov3-Tiny-PRN use the following command:
+For YOLOv4-Tiny-PRN use the following command:
 
 ```bash
 # with python 3
 python demo_webcam.py -n prn
+```
+
+For YOLOv4-Tiny use the following command:
+
+```bash
+# with python 3
+python demo_webcam.py -n v4-tiny
 ```
 
 ### Download
@@ -88,6 +104,9 @@ python demo_webcam.py -n prn
 - YOLOv3-tiny-prn Cross-Hands
 	- [Configuration](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny-prn.cfg)
 	- [Weights](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-tiny-prn.weights)
+- YOLOv4-Tiny Cross-Hands
+	- [Configuration](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-yolov4-tiny.cfg)
+	- [Weights](https://github.com/cansik/yolo-hand-detection/releases/download/pretrained/cross-hands-yolov4-tiny.weights)
 
 If you are interested in the CMU Hand DB results, please check the [release](https://github.com/cansik/yolo-hand-detection/releases/tag/pretrained) section.
 
