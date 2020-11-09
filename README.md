@@ -79,7 +79,7 @@ Or this one to run a webcam detrector with YOLOv3 tiny:
 python demo_webcam.py -n tiny
 ```
 
-For YOLOv4-Tiny-PRN use the following command:
+For YOLOv3-Tiny-PRN use the following command:
 
 ```bash
 # with python 3
