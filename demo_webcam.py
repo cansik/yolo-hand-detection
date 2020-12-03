@@ -38,7 +38,7 @@ else:
 
 while rval:
     width, height, inference_time, results = yolo.inference(frame)
-    if args.hands = -1:
+    if args.hands == -1:
         args.hands = len(results)
     for detection in results.sort(lambda x: x[2])[:x]:
         id, name, confidence, x, y, w, h = detection
