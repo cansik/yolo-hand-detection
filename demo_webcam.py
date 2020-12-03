@@ -8,7 +8,7 @@ ap.add_argument('-n', '--network', default="normal", help='Network Type: normal 
 ap.add_argument('-d', '--device', default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=416, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.2, help='Confidence for yolo')
-ap.add_argument('-h', '--hands', default=-1, help='Total number of hands to be detected per frame (-1 for all)')
+ap.add_argument('-nh', '--hands', default=-1, help='Total number of hands to be detected per frame (-1 for all)')
 args = ap.parse_args()
 
 if args.network == "normal":
