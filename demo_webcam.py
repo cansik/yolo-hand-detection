@@ -40,7 +40,10 @@ while rval:
     width, height, inference_time, results = yolo.inference(frame)
     if args.hands == -1:
         args.hands = len(results)
-    for detection in results.sort(lambda x: x[2])[:x]:
+    results.sort(key=lambda x: x[2])
+    cv2.putText(frame, f'{round(1/inference_time,2)} FPS', (15,15), cv2.FONT_HERSHEY_SIMPLEX,0.5, (0,255,255), 2)
+    for detection in results[:int(args.hands)]:
+    #for detection in results:
         id, name, confidence, x, y, w, h = detection
         cx = x + (w / 2)
         cy = y + (h / 2)
