@@ -8,6 +8,7 @@ ap.add_argument('-n', '--network', default="normal", help='Network Type: normal 
 ap.add_argument('-d', '--device', default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=416, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.2, help='Confidence for yolo')
+ap.add_argument('-nh', '--hands', default=-1, help='Total number of hands to be detected per frame (-1 for all)')
 args = ap.parse_args()
 
 if args.network == "normal":
@@ -37,7 +38,12 @@ else:
 
 while rval:
     width, height, inference_time, results = yolo.inference(frame)
-    for detection in results:
+    if args.hands == -1:
+        args.hands = len(results)
+    results.sort(key=lambda x: x[2])
+    cv2.putText(frame, f'{round(1/inference_time,2)} FPS', (15,15), cv2.FONT_HERSHEY_SIMPLEX,0.5, (0,255,255), 2)
+    for detection in results[:int(args.hands)]:
+    #for detection in results:
         id, name, confidence, x, y, w, h = detection
         cx = x + (w / 2)
         cy = y + (h / 2)
