@@ -38,12 +38,20 @@ else:
 
 while rval:
     width, height, inference_time, results = yolo.inference(frame)
-    if args.hands == -1:
-        args.hands = len(results)
-    results.sort(key=lambda x: x[2])
+
+    # display fps
     cv2.putText(frame, f'{round(1/inference_time,2)} FPS', (15,15), cv2.FONT_HERSHEY_SIMPLEX,0.5, (0,255,255), 2)
-    for detection in results[:int(args.hands)]:
-    #for detection in results:
+
+    # sort by confidence
+    results.sort(key=lambda x: x[2])
+
+    # how many hands should be shown
+    hand_count = len(results)
+    if args.hands != -1:
+        hand_count = int(args.hands)
+
+    # display hands
+    for detection in results[:hand_count]:
         id, name, confidence, x, y, w, h = detection
         cx = x + (w / 2)
         cy = y + (h / 2)
