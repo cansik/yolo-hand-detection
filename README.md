@@ -65,6 +65,15 @@ The model itself is fully compatible with the opencv dnn module and just ready t
 ### Demo
 To run the demo, please first install all the dependencies ([requirements.txt](requirements.txt)) into a virtual environment and download the model and weights into the model folder (or run the shell script).
 
+```bash
+# mac / linux
+cd models && sh ./download-models.sh
+
+# windows
+cd models && powershell .\download-models.ps1
+
+```
+
 Then run the following command to start a webcam detector with YOLOv3:
 
 ```bash
