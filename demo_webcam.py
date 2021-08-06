@@ -5,7 +5,7 @@ from yolo import YOLO
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-n', '--network', default="normal", help='Network Type: normal / tiny / prn / v4-tiny')
-ap.add_argument('-d', '--device', default=0, help='Device to use')
+ap.add_argument('-d', '--device', type=int, default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=416, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.2, help='Confidence for yolo')
 ap.add_argument('-nh', '--hands', default=-1, help='Total number of hands to be detected per frame (-1 for all)')
@@ -29,7 +29,7 @@ yolo.confidence = float(args.confidence)
 
 print("starting webcam...")
 cv2.namedWindow("preview")
-vc = cv2.VideoCapture(0)
+vc = cv2.VideoCapture(args.device)
 
 if vc.isOpened():  # try to get the first frame
     rval, frame = vc.read()
