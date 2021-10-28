@@ -10,12 +10,17 @@ class YOLO:
         self.confidence = confidence
         self.threshold = threshold
         self.size = size
-
+        self.output_names = []
         self.labels = labels
         try:
             self.net = cv2.dnn.readNetFromDarknet(config, model)
         except:
-            raise ValueError("Couldn't find the models!\nDid you forget to download them manually (and keep in the correct directory, models/) or run the shell script?")
+            raise ValueError("Couldn't find the models!\nDid you forget to download them manually (and keep in the "
+                             "correct directory, models/) or run the shell script?")
+
+        ln = self.net.getLayerNames()
+        for i in self.net.getUnconnectedOutLayers():
+            self.output_names.append(ln[i - 1])
 
     def inference_from_file(self, file):
         mat = cv2.imread(file)
@@ -24,13 +29,10 @@ class YOLO:
     def inference(self, image):
         ih, iw = image.shape[:2]
 
-        ln = self.net.getLayerNames()
-        ln = [ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
-
         blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (self.size, self.size), swapRB=True, crop=False)
         self.net.setInput(blob)
         start = time.time()
-        layerOutputs = self.net.forward(ln)
+        layerOutputs = self.net.forward(self.output_names)
         end = time.time()
         inference_time = end - start
 
