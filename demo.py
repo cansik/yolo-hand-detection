@@ -8,7 +8,8 @@ from yolo import YOLO
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--images', default="images", help='Path to images or image file')
-ap.add_argument('-n', '--network', default="normal", help='Network Type: normal / tiny / prn / v4-tiny')
+ap.add_argument('-n', '--network', default="normal", choices=["normal", "tiny", "prn", "v4-tiny"],
+                help='Network Type')
 ap.add_argument('-d', '--device', default=0, help='Device to use')
 ap.add_argument('-s', '--size', default=416, help='Size for yolo')
 ap.add_argument('-c', '--confidence', default=0.25, help='Confidence for yolo')
