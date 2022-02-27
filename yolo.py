@@ -20,7 +20,7 @@ class YOLO:
 
         ln = self.net.getLayerNames()
         for i in self.net.getUnconnectedOutLayers():
-            self.output_names.append(ln[i - 1])
+            self.output_names.append(ln[int(i) - 1])
 
     def inference_from_file(self, file):
         mat = cv2.imread(file)
