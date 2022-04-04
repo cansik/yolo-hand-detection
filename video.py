@@ -31,6 +31,10 @@ yolo.confidence = float(args.confidence)
 cv2.namedWindow("preview")
 cap = cv2.VideoCapture(args.video_path)
 
+result = cv2.VideoWriter(f'before.mp4',
+                        cv2.VideoWriter_fourcc(*'mp4v'),
+                        30.0, (1920, 1080))
+
 while cap.isOpened():
 
     ok, frame = cap.read()
@@ -67,6 +71,7 @@ while cap.isOpened():
         frame = cv2.circle(frame, (round(cx), round(cy)), radius=10, color=(0,0,255), thickness=20)
 
     cv2.imshow("preview", frame)
+    result.write(frame)
 
     # rval, frame = vc.read()
 
@@ -76,3 +81,4 @@ while cap.isOpened():
 
 cv2.destroyWindow("preview")
 cap.release()
+result.release()
