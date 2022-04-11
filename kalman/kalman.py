@@ -12,13 +12,32 @@ class KalmanFilter():
 
     # initialization equations
     def construct_state_transition_matrix(self, t):
-        pass
+        return np.array([
+        [1, t, 0.5*t**2, 0, 0, 0],
+        [0, 1, t, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0].
+        [0, 0, 0, 1, t, 0.5*t**2],
+        [0, 0, 0, 0, 1, t],
+        [0, 0, 0, 0, 0, 1]
+        ])
 
     def construct_process_noise_matrix(self, F, var_a):
-        pass
+        Q_a = np.array([
+        [t**4/4, t**3/2, t**2/2, 0, 0, 0],
+        [t**3/2, t**2, t, 0, 0, 0],
+        [t**2/2, t, 1, 0, 0, 0],
+        [0, 0, 0, t**4/4, t**3/2, t**2/2],
+        [0, 0, 0, t**3/2, t**2, t],
+        [0, 0, 0, t**2/2, t, 1]
+        ])*var_a
+
+        return np.matmul(np.matmul(F, Q_a), F.T)
 
     def construct_observation_matrix(self):
-        pass
+        return np.array([
+        [1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0]
+        ])
 
     # TODO: figure out if we should update R
 
@@ -39,3 +58,15 @@ class KalmanFilter():
 
     def covariance_update(self):
         pass
+
+    def run(self, z):
+
+        compute_kalman_gain()
+
+        state_update(z)
+
+        covariance_update()
+
+        state_extrapolation()
+
+        covariance_extrapolation()
