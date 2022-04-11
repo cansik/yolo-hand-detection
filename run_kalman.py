@@ -79,6 +79,8 @@ while cap.isOpened():
 
     z = np.array([cx, cy])
     kf.run(z)
+    xhat, yhat = kf.x[0], kf.x[3]
+    frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=10, color=(255,0,0), thickness=20)
 
     cv2.imshow("preview", frame)
     result.write(frame)

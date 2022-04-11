@@ -48,24 +48,21 @@ class KalmanFilter():
         return np.matmul(self.F, np.matmul(self.P, self.F.T))
 
     def compute_kalman_gain(self):
-        print(self.H.shape)
-        np.linalg.inv(np.matmul(self.H, np.matmul(self.P, self.H.T) + self.R))
-        np.matmul(self.H.T, np.linalg.inv(np.matmul(self.H, np.matmul(self.P, self.H.T) + self.R)))
-        return np.matmul(self.P, np.matmul(self.H.T, np.linalg.inv(np.matmul(self.H, np.matmul(self.P, self.H.T) + self.R))))
+        return np.matmul(self.P, np.matmul(self.H.T, np.linalg.inv(np.matmul(self.H, np.matmul(self.P, self.H.T)) + self.R)))
 
     def state_update(self, z):
         return self.x + np.matmul(self.compute_kalman_gain(), (z - np.matmul(self.H, self.x)))
 
     def covariance_update(self):
         K = self.compute_kalman_gain()
-        return np.matmul((np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T))) + np.matmul(K, np.matmul(self.R, K.T))
+        return np.matmul(np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T)) + np.matmul(K, np.matmul(self.R, K.T))
 
     def run(self, z):
 
-        self.state_update(z)
+        self.x = self.state_update(z)
 
-        self.covariance_update()
+        self.P = self.covariance_update()
 
-        self.state_extrapolation()
+        self.x = self.state_extrapolation()
 
-        self.covariance_extrapolation()
+        self.P = self.covariance_extrapolation()
