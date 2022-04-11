@@ -1,6 +1,7 @@
 import argparse
 import cv2
 from kalman.kalman import KalmanFilter
+import numpy as np
 
 from yolo import YOLO
 
@@ -75,6 +76,9 @@ while cap.isOpened():
                     0.5, color, 2)
 
         frame = cv2.circle(frame, (round(cx), round(cy)), radius=10, color=(0,0,255), thickness=20)
+
+    z = np.array([cx, cy])
+    kf.run(z)
 
     cv2.imshow("preview", frame)
     result.write(frame)
