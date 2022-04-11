@@ -2,7 +2,7 @@ import numpy as np
 
 class KalmanFilter():
 
-    def __init__(self, timestep, x_init, P_init, R_init):
+    def __init__(self, timestep, x_init, P_init, R_init, var_s):
         self.x = x_init
         self.P = P_init
         self.R = R_init
@@ -39,25 +39,24 @@ class KalmanFilter():
         [0, 0, 0, 1, 0, 0]
         ])
 
-    # TODO: figure out if we should update R
-
     # update equations
     def state_extrapolation(self):
         # TODO: determine if we need w_n
-        pass
+        x_hat = np.matmul(self.F, self.x)
+        return x_hat
 
     def covariance_extrapolation(self):
-        pass
+        return np.matmul(self.F, np.matmul(self.P, self.F.T))
 
     def compute_kalman_gain(self):
-        pass
+        return np.matmul(self.P, np.matmul(self.H.T, np.linalg.inv(np.matmul(self.H, np.matmul(self.P, self.H.T) + self.R))))
 
     def state_update(self, z):
-        # z = our measurement
-        pass
+        return self.x + np.matmul(self.compute_kalman_gain(), (z - np.matmul(self.H, self.x)))
 
     def covariance_update(self):
-        pass
+        K = self.compute_kalman_gain()
+        return np.matmul((np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T))) + np.matmul(K, np.matmul(self.R, K.T))
 
     def run(self, z):
 
