@@ -40,7 +40,7 @@ result = cv2.VideoWriter(f'after.mp4',
 x_init = np.zeros(6)
 P_init = np.diag(np.full(6, 500))
 R_init = np.array([[9,0],[0,9]])
-kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2)
+kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=1.25)
 
 while cap.isOpened():
 
@@ -80,6 +80,7 @@ while cap.isOpened():
     z = np.array([cx, cy])
     kf.run(z)
     xhat, yhat = kf.x[0], kf.x[3]
+    print(xhat,yhat)
     frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=10, color=(255,0,0), thickness=20)
 
     cv2.imshow("preview", frame)
