@@ -1,6 +1,7 @@
 import argparse
 import cv2
 from kalman.kalman import KalmanFilter
+from kalman.given_kalman import KalmanFilter as KF2
 import numpy as np
 
 from yolo import YOLO
@@ -35,12 +36,16 @@ cap = cv2.VideoCapture(args.video_path)
 
 result = cv2.VideoWriter(f'after.mp4',
                         cv2.VideoWriter_fourcc(*'mp4v'),
-                        30.0, (1920, 1080))
+                        30.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
 
 x_init = np.zeros(6)
 P_init = np.diag(np.full(6, 500))
 R_init = np.array([[9,0],[0,9]])
-kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=1.25)
+kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=1.5)
+
+kf2 = KF2()
+
+first_pred = False
 
 while cap.isOpened():
 
@@ -62,26 +67,48 @@ while cap.isOpened():
         hand_count = int(args.hands)
 
     # display hands
-    for detection in results[:hand_count]:
-        id, name, confidence, x, y, w, h = detection
-        cx = x + (w / 2)
-        cy = y + (h / 2)
+    if hand_count > 0:
+        for detection in results[:hand_count]:
+            first_pred = True
+            id, name, confidence, x, y, w, h = detection
+            if confidence < 0.8:
+                kf.predict()
+                xhat, yhat = kf.x[0], kf.x[3]
+                frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=5, color=(255,0,0), thickness=2)
 
-        # draw a bounding box rectangle and label on the image
-        color = (0, 255, 255)
+                predicted = kf2.kf.predict()
+                xhat2, yhat2 = int(predicted[0]), int(predicted[1])
+                frame = cv2.circle(frame, (round(xhat2), round(yhat2)), radius=5, color=(255,255,0), thickness=2)
+                continue
+            cx = x + (w / 2)
+            cy = y + (h / 2)
 
-        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-        text = "%s (%s)" % (name, round(confidence, 2))
-        cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5, color, 2)
+            # draw a bounding box rectangle and label on the image
+            color = (0, 255, 255)
 
-        frame = cv2.circle(frame, (round(cx), round(cy)), radius=10, color=(0,0,255), thickness=20)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+            text = "%s (%s)" % (name, round(confidence, 2))
+            cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5, color, 2)
 
-    z = np.array([cx, cy])
-    kf.run(z)
-    xhat, yhat = kf.x[0], kf.x[3]
-    print(xhat,yhat)
-    frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=10, color=(255,0,0), thickness=20)
+            frame = cv2.circle(frame, (round(cx), round(cy)), radius=5, color=(0,0,255), thickness=2)
+
+            z = np.array([cx, cy])
+            kf.run(z)
+            xhat, yhat = kf.x[0], kf.x[3]
+            frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=5, color=(255,0,0), thickness=2)
+
+            xhat2, yhat2 = kf2.predict([cx, cy])
+            frame = cv2.circle(frame, (round(xhat2), round(yhat2)), radius=5, color=(255,255,0), thickness=2)
+
+    elif first_pred:
+        kf.predict()
+        xhat, yhat = kf.x[0], kf.x[3]
+        frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=5, color=(255,0,0), thickness=2)
+
+        predicted = kf2.kf.predict()
+        xhat2, yhat2 = int(predicted[0]), int(predicted[1])
+        frame = cv2.circle(frame, (round(xhat2), round(yhat2)), radius=5, color=(255,255,0), thickness=2)
 
     cv2.imshow("preview", frame)
     result.write(frame)

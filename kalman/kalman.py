@@ -56,7 +56,11 @@ class KalmanFilter():
 
     def covariance_update(self):
         K = self.compute_kalman_gain()*self.gain
-        return np.matmul(np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T)) + np.matmul(K, np.matmul(self.R, K.T))
+        P = np.matmul(np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T)) + np.matmul(K, np.matmul(self.R, K.T))
+        if np.sum(np.isnan(P)) > 0:
+            print('yikes')
+            return self.P
+        else: return P
 
     def run(self, z):
 
@@ -67,3 +71,11 @@ class KalmanFilter():
         self.x = self.state_extrapolation()
 
         self.P = self.covariance_extrapolation()
+
+    def predict(self):
+
+        self.x = self.state_extrapolation()
+
+        self.P = self.covariance_extrapolation()
+
+        return self.x[0], self.x[3]
