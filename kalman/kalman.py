@@ -23,7 +23,7 @@ class KalmanFilter():
         ])
 
     def construct_process_noise_matrix(self, t, var_a):
-        Q_a = np.array([
+        return np.array([
         [t**4/4, t**3/2, t**2/2, 0, 0, 0],
         [t**3/2, t**2, t, 0, 0, 0],
         [t**2/2, t, 1, 0, 0, 0],
@@ -31,8 +31,6 @@ class KalmanFilter():
         [0, 0, 0, t**3/2, t**2, t],
         [0, 0, 0, t**2/2, t, 1]
         ])*var_a
-
-        return np.matmul(np.matmul(self.F, Q_a), self.F.T)
 
     def construct_observation_matrix(self):
         return np.array([
