@@ -72,6 +72,8 @@ class KalmanFilter():
 
         self.P = self.covariance_extrapolation()
 
+        return self.x[0], self.x[3]
+
     def predict(self):
 
         self.x = self.state_extrapolation()
