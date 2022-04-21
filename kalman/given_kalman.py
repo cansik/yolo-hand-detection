@@ -19,5 +19,5 @@ class KalmanFilter:
         measured = np.array([[np.float32(coordX)], [np.float32(coordY)]])
         self.kf.correct(measured)
         predicted = self.kf.predict()
-        x, y = predicted[0], predicted[1]
+        x, y = int(predicted[0]), int(predicted[1])
         return x, y
