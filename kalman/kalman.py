@@ -66,10 +66,7 @@ class KalmanFilter():
     def covariance_update(self):
         K = self.compute_kalman_gain()*self.gain
         P = np.matmul(np.eye(K.shape[0]) - np.matmul(K, self.H), np.matmul(self.P, (np.eye(K.shape[0]) - np.matmul(K, self.H)).T)) + np.matmul(K, np.matmul(self.R, K.T))
-        if np.sum(np.isnan(P)) > 0:
-            print('yikes')
-            return self.P
-        else: return P
+        return P
 
     # takes in a new observation and performs one 'iteration' of the kalman filter
     def run(self, z):
