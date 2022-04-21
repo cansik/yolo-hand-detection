@@ -1,0 +1,1 @@
+ball_no_0: coords (50, 958), size 63x63

@@ -1,0 +1,1 @@
+ball_no_0: coords (258, 824), size 71x71

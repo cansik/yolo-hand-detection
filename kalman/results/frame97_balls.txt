@@ -1,0 +1,2 @@
+ball_no_0: coords (1816, 324), size 85x85
+ball_no_1: coords (201, 972), size 72x72
