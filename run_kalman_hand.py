@@ -20,8 +20,8 @@ yolo.confidence = float(args.confidence) # confidence threshold for YOLO detecti
 
 cv2.namedWindow("preview")
 cap = cv2.VideoCapture(args.video_path)
-np_path = args.video_path[:-4]+'_gain10.npy' # path to save detection as measurements to a numpy file
-new_path = args.video_path[:-4]+'_results_gain10.mp4' # path to save results video
+np_path = args.video_path[:-4]+'.npy' # path to save detection as measurements to a numpy file
+new_path = args.video_path[:-4]+'_results.mp4' # path to save results video
 measurements = np.zeros((int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), 2)) # initialize saved measurements
 fcnt = 0 # frame count
 
@@ -34,7 +34,7 @@ result = cv2.VideoWriter(new_path,
 x_init = np.zeros(6)
 P_init = np.diag(np.full(6, 500))
 R_init = np.array([[9,0],[0,9]])
-kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=10.) # initialize the Kalman filter we DID write
+kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=1.) # initialize the Kalman filter we DID write
 
 kf2 = KalmanFilter2() # initialize a Kalman filter we DID NOT write for comparison in the report
 
