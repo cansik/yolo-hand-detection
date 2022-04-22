@@ -14,6 +14,16 @@ In this repository, we track hands (using YOLO) and tennis balls (using Haar fea
 - [cansik](https://github.com/cansik/yolo-hand-detection) (YOLO hand detection)
 - [radosz99](https://github.com/radosz99/tennis-ball-detector) (Haar tennis ball detection)
 
+To download the weights for YOLO hand detection, run:
+
+```
+# mac / linux
+cd models && sh ./download-models.sh
+
+# windows
+cd models && powershell .\download-models.ps1
+```
+
 ## Requirements
 
 Requirements can be installed using the following command:
@@ -25,13 +35,23 @@ pip3 install -r requirements.txt
 
 The following command can be used to run the Kalman filter using YOLO hand detection:
 ```
-python3 run_kalman.py -v /path/to/video.mp4 -c [confidence threshold]
+python3 run_kalman_hand.py -v /path/to/video.mp4 -c [confidence threshold]
 ```
+This will run in real-time and save the resulting video at 30 FPS.
+
+## Running the Kalman filter for Tennis Ball Detection
+
+The following command can be used to run the Kalman filter using Haar features trained on tennis balls:
+```
+python3 run_kalman_tennis.py -v /path/to/video.mp4
+```
+This will run in real-time and save the resulting video at 30 FPS.
 
 ## Notebooks
 
 - A notebook with analysis of the Kalman filter in response to synthetic data can be found in `kalman/synthetic_data_kalman_tests.ipynb`
-- A notebook with analysis of the Kalman filter in response to real data can be found in `kalman/tennis_ball_kalman_tests.ipynb`
+- A notebook with analysis of the Kalman filter in response to real **hand** data can be found in `kalman/hand_kalman_tests.ipynb`
+- A notebook with analysis of the Kalman filter in response to real **tennis** data can be found in `kalman/tennis_ball_kalman_tests.ipynb`
 
 ## Videos and Results
 
