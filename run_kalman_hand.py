@@ -20,12 +20,13 @@ yolo.confidence = float(args.confidence) # confidence threshold for YOLO detecti
 
 cv2.namedWindow("preview")
 cap = cv2.VideoCapture(args.video_path)
-np_path = args.video_path[:-4]+'.npy' # path to save detection as measurements to a numpy file
+np_path = args.video_path[:-4]+'_gain10.npy' # path to save detection as measurements to a numpy file
+new_path = args.video_path[:-4]+'_results_gain10.mp4' # path to save results video
 measurements = np.zeros((int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), 2)) # initialize saved measurements
 fcnt = 0 # frame count
 
 # write the results to a video with 30 FPS
-result = cv2.VideoWriter(f'after.mp4',
+result = cv2.VideoWriter(new_path,
                         cv2.VideoWriter_fourcc(*'mp4v'),
                         30.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
 
@@ -33,7 +34,7 @@ result = cv2.VideoWriter(f'after.mp4',
 x_init = np.zeros(6)
 P_init = np.diag(np.full(6, 500))
 R_init = np.array([[9,0],[0,9]])
-kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=1.) # initialize the Kalman filter we DID write
+kf = KalmanFilter(1, x_init, P_init, R_init, 0.2**2, gain=10.) # initialize the Kalman filter we DID write
 
 kf2 = KalmanFilter2() # initialize a Kalman filter we DID NOT write for comparison in the report
 
@@ -65,15 +66,6 @@ while cap.isOpened():
         for detection in results[:hand_count]:
             first_pred = True
             id, name, confidence, x, y, w, h = detection
-            # if confidence < 0.:
-            #     kf.predict()
-            #     xhat, yhat = kf.x[0], kf.x[3]
-            #     frame = cv2.circle(frame, (round(xhat), round(yhat)), radius=5, color=(255,0,0), thickness=2)
-            #
-            #     predicted = kf2.kf.predict()
-            #     xhat2, yhat2 = int(predicted[0]), int(predicted[1])
-            #     frame = cv2.circle(frame, (round(xhat2), round(yhat2)), radius=5, color=(255,255,0), thickness=2)
-            #     continue
 
             # get center of object as thing to track
             cx = x + (w / 2)
